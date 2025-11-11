@@ -513,10 +513,16 @@ section + section {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   border: 1px solid rgba(226, 232, 240, 0.8);
+  display: grid;
+  gap: 16px;
 }
 
 .cta-card h3 {
   margin-top: 0;
+}
+
+.cta-card .primary-btn {
+  justify-self: center;
 }
 
 .articles-grid {
@@ -528,30 +534,6 @@ section + section {
   margin-top: 12px;
   color: var(--primary);
   font-weight: 600;
-}
-
-.partners {
-  background: var(--background);
-}
-
-.partners .container {
-  text-align: center;
-}
-
-.partners-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 24px;
-  justify-content: center;
-  margin-top: 32px;
-}
-
-.partner-card {
-  text-align: center;
-  padding: 28px;
-  box-shadow: var(--shadow-md);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: var(--radius-md);
 }
 
 .contacts {
