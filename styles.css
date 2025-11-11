@@ -789,6 +789,14 @@ section + section {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.footer-contacts span strong {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.footer-contacts span:last-child {
+  color: rgba(255, 255, 255, 0.92);
+}
+
 .footer-bottom {
   border-top: 1px solid rgba(250, 204, 21, 0.2);
   padding: 18px 0;
@@ -925,6 +933,13 @@ section + section {
 
   .hero-slideshow img {
     max-height: 320px;
+  }
+
+}
+
+@media (max-width: 490px) {
+  .how-grid h2 {
+    text-align: center;
   }
 }
 
