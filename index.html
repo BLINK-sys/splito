@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPLITO — Рассрочка оборудования</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container">
+        <div class="logo">
+          <span class="logo-mark">S</span>
+          <span class="logo-text">SPLITO</span>
+        </div>
+        <nav class="nav">
+          <a href="#advantages">Преимущества</a>
+          <a href="#partners">Партнёры</a>
+          <a href="#calculator">Калькулятор</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+        <div class="topbar-actions">
+          <a class="phone" href="tel:+77271234567">+7 727 123-45-67</a>
+          <a class="outline-btn" href="#contacts">Заказать звонок</a>
+        </div>
+        <button class="menu-toggle" aria-label="Меню">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <h1>Рассрочка оборудования SPLITO для бизнеса в Казахстане</h1>
+          <p>
+            Получите новое оборудование от SPLITO за 48 часов. Прозрачные условия, онлайн-оформление
+            и персональное сопровождение сделки по всему Казахстану.
+          </p>
+          <div class="hero-stats">
+            <div>
+              <strong>до 80%</strong>
+              <span>заявок одобряем ежедневно по всему Казахстану</span>
+            </div>
+            <div>
+              <strong>30%</strong>
+              <span>фиксированный авансовый платёж</span>
+            </div>
+            <div>
+              <strong>до 12 мес</strong>
+              <span>срок рассрочки</span>
+            </div>
+          </div>
+          <div class="hero-actions">
+          <a class="primary-btn" href="#calculator">Оформить рассрочку</a>
+          <a class="outline-btn" href="#contacts">Получить консультацию</a>
+          </div>
+        </div>
+        <div class="hero-media">
+          <div class="hero-slideshow" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="partners" class="partners-marquee">
+      <div class="container">
+        <h2>Наши партнёры</h2>
+        <div class="marquee" aria-label="Список партнёров">
+          <div class="marquee-track">
+            <span>CAS</span>
+            <span>Viatto Commercial</span>
+            <span>Abat</span>
+            <span>Fimar</span>
+            <span>Гриль-Мастер</span>
+            <span>Electrolux</span>
+            <span>Cryspi</span>
+            <span>Unox</span>
+            <span>Eureka</span>
+            <span>Масса-К</span>
+            <span>CAS</span>
+            <span>Viatto Commercial</span>
+            <span>Abat</span>
+            <span>Fimar</span>
+            <span>Гриль-Мастер</span>
+            <span>Electrolux</span>
+            <span>Cryspi</span>
+            <span>Unox</span>
+            <span>Eureka</span>
+            <span>Масса-К</span>
+          </div>
+        </div>
+        <p class="partners-note">И многие другие.</p>
+      </div>
+    </section>
+
+    <section class="timeline">
+      <div class="container">
+        <h2>Как работает сделка рассрочки SPLITO</h2>
+        <div class="timeline-grid">
+          <article>
+            <span class="step">1</span>
+            <h3>Заявка</h3>
+            <p>Заполните заявку онлайн или свяжитесь с нами по телефону, прикрепите документы.</p>
+          </article>
+          <article>
+            <span class="step">2</span>
+            <h3>Договор</h3>
+            <p>Подпишите договор рассрочки и поставки. Все доступно в личном кабинете.</p>
+          </article>
+          <article>
+            <span class="step">3</span>
+            <h3>Поставка</h3>
+            <p>Мы оплачиваем поставщику, вы получаете оборудование и запускаете проект.</p>
+          </article>
+          <article>
+            <span class="step">4</span>
+            <h3>Рассрочка</h3>
+            <p>Оплачивайте ежемесячные платежи и выкупайте оборудование по остаточной стоимости.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator" class="calculator">
+      <div class="container calculator-grid">
+        <div class="calculator-intro">
+          <h2>Рассчитайте условия SPLITO за 30 секунд</h2>
+          <p>Укажите стоимость оборудования и срок договора — мгновенно получите сумму договора и платежи.</p>
+          <ul>
+            <li>Расчёт по тарифу SPLITO «Масштабирование»</li>
+            <li>Суммы от 100 000 до 100 000 000 ₸</li>
+            <li>Срок договора от 2 до 12 месяцев</li>
+            <li>Авансовый платёж фиксирован — 30%</li>
+          </ul>
+        </div>
+        <form class="calculator-card" aria-label="Калькулятор рассрочки">
+          <label>
+            Стоимость оборудования, ₸
+            <input type="range" min="100000" max="100000000" value="5000000" step="50000" data-role="equipment" data-output="#equipment-value" />
+            <output id="equipment-value">5 000 000 ₸</output>
+          </label>
+          <label>
+            Срок договора, месяцев
+            <input type="range" min="2" max="12" value="6" step="1" data-role="term" data-output="#term-value" />
+            <output id="term-value">6</output>
+          </label>
+          <div class="static-field">
+            <span>Авансовый платёж</span>
+            <strong id="downpayment-value">30%</strong>
+          </div>
+          <div class="results">
+            <div>
+              <span>Авансовый платёж, ₸</span>
+              <strong id="downpayment-amount">0 ₸</strong>
+            </div>
+            <div>
+              <span>Ежемесячный платёж, ₸</span>
+              <strong id="monthly-payment">0 ₸</strong>
+            </div>
+            <div>
+              <span>Сумма договора, ₸</span>
+              <strong id="total-amount">0 ₸</strong>
+            </div>
+          </div>
+          <button type="button" class="primary-btn full-width">Оформить рассрочку</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="advantages" class="advantages">
+      <div class="container">
+        <h2>Почему компании выбирают SPLITO</h2>
+        <div class="advantages-grid">
+          <article>
+            <h3>До 80% одобрений</h3>
+            <p>Лояльный скоринг, индивидуальные условия и поддержка компаний любой величины.</p>
+          </article>
+          <article>
+            <h3>Баланс под контролем</h3>
+            <p>Платежи по рассрочке не увеличивают кредиторскую нагрузку, оставайтесь гибкими.</p>
+          </article>
+          <article>
+            <h3>Гибкие графики</h3>
+            <p>Настраиваем сезонные графики, учитываем специфику вашего бизнеса и кассовые разрывы.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-to">
+      <div class="container how-grid">
+        <div>
+          <h2>Как получить финансирование SPLITO</h2>
+          <ol>
+            <li>Заполните заявку онлайн или свяжитесь с нами по телефону, прикрепите документы.</li>
+            <li>Получите решение и лимит финансирования в течение 48 часов.</li>
+            <li>Подберите необходимое оборудование — и мы доставим его вам.</li>
+          </ol>
+        </div>
+        <div class="cta-card">
+          <h3>Нужна консультация SPLITO?</h3>
+          <p>Оставьте заявку, и менеджер свяжется с вами в течение рабочего дня.</p>
+          <a class="primary-btn" href="#contacts">Заказать звонок</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="partners">
+      <div class="container">
+        <h2>Стратегические партнёры SPLITO</h2>
+        <div class="partners-grid">
+          <div class="partner-card">
+            <h3>Поставщики оборудования</h3>
+            <p>Промышленные станки, медицинские системы, IT-инфраструктура и робототехника.</p>
+          </div>
+          <div class="partner-card">
+            <h3>Производители</h3>
+            <p>Льготные условия и эксклюзивные скидки для клиентов SPLITO по всему Казахстану.</p>
+          </div>
+          <div class="partner-card">
+            <h3>Финансовые институты</h3>
+            <p>Надёжные банковские партнёры, обеспечивающие выгодные тарифы и поддержку.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacts" class="contacts">
+      <div class="container contact-grid">
+        <div>
+          <h2>Свяжитесь с SPLITO</h2>
+          <p>Оставьте заявку или позвоните — мы подготовим индивидуальное решение под ваш бизнес в Казахстане.</p>
+          <ul class="contact-list">
+            <li><strong>Телефон:</strong> <a href="tel:+77271234567">+7 727 123-45-67</a></li>
+            <li><strong>Email:</strong> <a href="mailto:info@splito.kz">info@splito.kz</a></li>
+            <li><strong>Адрес:</strong> 050000, Казахстан, г. Алматы, пр. Абая, 25</li>
+            <li><strong>Время работы:</strong> Пн–Пт, 9:00–18:00</li>
+          </ul>
+        </div>
+        <form class="contact-form" id="contact-form" novalidate>
+          <label>
+            Имя
+            <input type="text" name="name" placeholder="Ваше имя" required />
+          </label>
+          <label>
+            Телефон
+            <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" placeholder="you@example.com" />
+          </label>
+          <label>
+            Сообщение
+            <textarea name="message" rows="4" placeholder="Опишите потребности вашего бизнеса"></textarea>
+          </label>
+          <button type="submit" class="primary-btn full-width">Отправить</button>
+          <p class="form-status" data-form-status aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <span class="logo-mark">S</span>
+            <span class="logo-text">SPLITO</span>
+          </div>
+          <p>Инновационная компания рассрочки. Финансируем покупку оборудования для бизнеса по всему Казахстану.</p>
+        </div>
+        <div class="footer-contacts">
+          <h4>Контакты</h4>
+          <a href="mailto:info@splito.kz">info@splito.kz</a>
+          <a href="tel:+77271234567">+7 727 123-45-67</a>
+          <span>050000, Казахстан, г. Алматы, пр. Абая, 25</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">
+          <span>© 2025 ООО «SPLITO-РАССРОЧКА»</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
+
