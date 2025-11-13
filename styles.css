@@ -711,6 +711,7 @@ section + section {
   font-size: 14px;
   color: var(--muted);
   min-height: 20px;
+  text-align: center;
 }
 
 .form-status.success {

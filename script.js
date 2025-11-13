@@ -1,5 +1,5 @@
 const BITRIX_BASE_URL = 'https://pospro24.bitrix24.kz/rest/4615/slmhoqjtm2cwr15w/';
-const BITRIX_RESPONSIBLE_ID = 4615;
+const BITRIX_RESPONSIBLE_ID = 1;
 
 const formatCurrency = (value) => {
   const rounded = Math.round(value);
