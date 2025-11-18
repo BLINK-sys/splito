@@ -397,6 +397,8 @@ section + section {
 
 .partners-marquee {
   background: var(--background);
+  display: block;
+  visibility: visible;
 }
 
 .partners-marquee .container {
@@ -408,14 +410,21 @@ section + section {
   overflow: hidden;
   margin: 32px 0;
   padding: 12px 0;
+  min-height: 100px;
+  display: block;
+  visibility: visible;
+  width: 100%;
 }
 
 .marquee-track {
   display: flex;
   gap: 48px;
   width: max-content;
+  -webkit-animation: partners-marquee 40s linear infinite;
+  -moz-animation: partners-marquee 40s linear infinite;
   animation: partners-marquee 40s linear infinite;
-  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .marquee-track img {
@@ -432,6 +441,28 @@ section + section {
   text-align: center;
   font-weight: 600;
   color: var(--accent);
+}
+
+@-webkit-keyframes partners-marquee {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+}
+
+@-moz-keyframes partners-marquee {
+  0% {
+    -moz-transform: translateX(0);
+    transform: translateX(0);
+  }
+  100% {
+    -moz-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes partners-marquee {
