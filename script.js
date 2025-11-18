@@ -26,48 +26,85 @@ const calculate = () => {
   document.getElementById('total-amount').textContent = formatCurrency(totalAmount);
 };
 
-const initHeroSlideshow = () => {
+const initHeroSlideshow = async () => {
   const slideshow = document.querySelector('.hero-slideshow');
   if (!slideshow) return;
 
-  const heroImages = [
-    'images/2025-11-06_06-48-03.png',
-    'images/2025-11-06_06-48-15.jpg',
-    'images/2025-11-06_06-50-10.jpg',
-    'images/2025-11-06_06-50-53.jpg',
-    'images/2025-11-06_06-50-58.jpg',
-    'images/2025-11-06_06-52-24.jpg',
-    'images/2025-11-06_06-52-30.jpg',
+  // Список всех изображений в папке images
+  // Добавляйте сюда новые файлы - формат определяется автоматически (png, jpg, jpeg, webp, gif)
+  const imageFiles = [
+    '1.png',
+    '2.png',
   ];
 
-  const slides = heroImages.map((src) => {
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = 'Оборудование SPLITO';
-    img.loading = 'lazy';
-    slideshow.appendChild(img);
-    return img;
-  });
+  // Загружаем все изображения (формат определяется автоматически браузером)
+  const imagesToLoad = imageFiles.map(file => `images/${file}`);
 
-  if (!slides.length) return;
-
+  const slides = [];
+  const validSlides = [];
+  let loadedCount = 0;
+  const totalImages = imagesToLoad.length;
+  let slideshowInitialized = false;
   let currentIndex = 0;
   const intervalMs = 3200;
   const leaveDuration = 650;
 
-  slides[currentIndex].classList.add('is-active');
+  // Функция для инициализации слайдшоу после загрузки всех изображений
+  const initSlideshow = () => {
+    if (validSlides.length === 0 || slideshowInitialized) return;
+    
+    slideshowInitialized = true;
 
-  if (slides.length > 1) {
-    setInterval(() => {
-      const currentSlide = slides[currentIndex];
-      currentSlide.classList.remove('is-active');
-      currentSlide.classList.add('is-leaving');
-      setTimeout(() => currentSlide.classList.remove('is-leaving'), leaveDuration);
+    // Запускаем автоматическую смену изображений только если есть больше одного
+    if (validSlides.length > 1) {
+      setInterval(() => {
+        const currentSlide = validSlides[currentIndex];
+        if (currentSlide) {
+          currentSlide.classList.remove('is-active');
+          currentSlide.classList.add('is-leaving');
+          setTimeout(() => currentSlide.classList.remove('is-leaving'), leaveDuration);
+        }
 
-      currentIndex = (currentIndex + 1) % slides.length;
-      slides[currentIndex].classList.add('is-active');
-    }, intervalMs);
-  }
+        currentIndex = (currentIndex + 1) % validSlides.length;
+        if (validSlides[currentIndex]) {
+          validSlides[currentIndex].classList.add('is-active');
+        }
+      }, intervalMs);
+    }
+  };
+
+  // Загружаем все изображения
+  imagesToLoad.forEach((src) => {
+    const img = document.createElement('img');
+    img.alt = 'Оборудование SPLITO';
+    // Обработка ошибок загрузки изображений (включая PNG)
+    img.onerror = function() {
+      console.warn(`Не удалось загрузить изображение: ${src}`);
+      this.style.display = 'none';
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        initSlideshow();
+      }
+    };
+    img.onload = function() {
+      // Изображение успешно загружено (поддерживает jpg, png, jpeg, webp и др.)
+      validSlides.push(this);
+      loadedCount++;
+      
+      // Показываем первое изображение сразу после загрузки
+      if (loadedCount === 1 && validSlides[0]) {
+        validSlides[0].classList.add('is-active');
+      }
+      
+      // Запускаем слайдшоу после загрузки всех изображений
+      if (loadedCount === totalImages) {
+        initSlideshow();
+      }
+    };
+    img.src = src; // Устанавливаем src после обработчиков
+    slideshow.appendChild(img);
+    slides.push(img);
+  });
 };
 
 const initContactForm = () => {
