@@ -856,7 +856,7 @@ section + section {
     aspect-ratio: 1 / 1;
     min-height: auto;
     height: auto;
-    margin-bottom: 12px;
+    margin: 0 auto 12px;
     padding: 5px;
   }
 
@@ -866,8 +866,9 @@ section + section {
   }
 
   .hero-slideshow img {
-    width: calc(100% - 10px);
-    height: calc(100% - 10px);
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    margin: 20px;
     max-height: none;
   }
 
