@@ -1,4 +1,5 @@
-const BITRIX_BASE_URL = 'https://pospro24.bitrix24.kz/rest/4615/slmhoqjtm2cwr15w/';
+const BITRIX_BASE_URL = 'https://pospro24.bitrix24.kz/rest/4243/ujfsiyj7t7z1m1a9/';
+const BITRIX_CATEGORY_ID = 15;
 const BITRIX_RESPONSIBLE_ID = 1;
 
 const formatCurrency = (value) => {
@@ -52,25 +53,25 @@ const initHeroSlideshow = async () => {
   // Функция для инициализации слайдшоу после загрузки всех изображений
   const initSlideshow = () => {
     if (validSlides.length === 0 || slideshowInitialized) return;
-    
+
     slideshowInitialized = true;
 
     // Запускаем автоматическую смену изображений только если есть больше одного
     if (validSlides.length > 1) {
-      setInterval(() => {
+    setInterval(() => {
         const currentSlide = validSlides[currentIndex];
         if (currentSlide) {
-          currentSlide.classList.remove('is-active');
-          currentSlide.classList.add('is-leaving');
-          setTimeout(() => currentSlide.classList.remove('is-leaving'), leaveDuration);
+      currentSlide.classList.remove('is-active');
+      currentSlide.classList.add('is-leaving');
+      setTimeout(() => currentSlide.classList.remove('is-leaving'), leaveDuration);
         }
 
         currentIndex = (currentIndex + 1) % validSlides.length;
         if (validSlides[currentIndex]) {
           validSlides[currentIndex].classList.add('is-active');
         }
-      }, intervalMs);
-    }
+    }, intervalMs);
+  }
   };
 
   // Загружаем все изображения
@@ -195,6 +196,7 @@ const initContactForm = () => {
           ASSIGNED_BY_ID: BITRIX_RESPONSIBLE_ID || undefined,
           CONTACT_ID: contactId || undefined,
           SOURCE_ID: 'WEB',
+          CATEGORY_ID: BITRIX_CATEGORY_ID,
         },
       };
 
