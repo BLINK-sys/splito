@@ -173,22 +173,6 @@ a {
   font-weight: 600;
 }
 
-.phone-hidden {
-  cursor: pointer;
-  color: var(--primary);
-  text-decoration: underline;
-  transition: color 0.2s ease;
-}
-
-.phone-hidden:hover {
-  color: var(--primary-dark);
-}
-
-.phone-revealed {
-  color: inherit;
-  text-decoration: none;
-}
-
 button {
   font-family: inherit;
   border: none;

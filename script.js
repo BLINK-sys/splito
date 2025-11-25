@@ -2,56 +2,6 @@ const BITRIX_BASE_URL = 'https://pospro24.bitrix24.kz/rest/4243/ujfsiyj7t7z1m1a9
 const BITRIX_CATEGORY_ID = 15;
 const BITRIX_RESPONSIBLE_ID = 1;
 
-// Функция для сбора UTM меток из URL
-const collectUtmParams = () => {
-  try {
-    const urlParams = new URLSearchParams(window.location.search);
-    const utmParams = {};
-    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-    
-    // Собираем UTM метки из текущего URL
-    utmKeys.forEach(key => {
-      const value = urlParams.get(key);
-      if (value) {
-        utmParams[key] = decodeURIComponent(value);
-      }
-    });
-    
-    // Если есть UTM метки в URL - сохраняем их (перезаписываем старые)
-    if (Object.keys(utmParams).length > 0) {
-      sessionStorage.setItem('utm_params', JSON.stringify(utmParams));
-      console.log('✅ UTM метки найдены в URL и сохранены:', utmParams);
-      return utmParams;
-      } else {
-        // Если UTM меток нет в URL, проверяем сохраненные
-        const existing = sessionStorage.getItem('utm_params');
-        if (existing) {
-          try {
-            const parsed = JSON.parse(existing);
-            console.log('ℹ️ Используются сохраненные UTM метки:', parsed);
-            return parsed;
-          } catch (e) {
-            console.warn('⚠️ Ошибка при чтении сохраненных UTM меток:', e);
-            sessionStorage.removeItem('utm_params');
-          }
-        }
-        // Если UTM меток нет - это нормально (пользователь зашел напрямую)
-        // Не выводим сообщение в консоль, чтобы не засорять её
-      }
-    
-    return utmParams;
-  } catch (error) {
-    console.error('❌ Ошибка при сборе UTM меток:', error);
-    return {};
-  }
-};
-
-// Функция для получения сохраненных UTM меток
-const getUtmParams = () => {
-  const stored = sessionStorage.getItem('utm_params');
-  return stored ? JSON.parse(stored) : {};
-};
-
 const formatCurrency = (value) => {
   const rounded = Math.round(value);
   return `${rounded.toLocaleString('ru-RU')} ₸`;
@@ -230,47 +180,25 @@ const initContactForm = () => {
         }
       }
 
-      // Получаем UTM метки
-      const utmParams = getUtmParams();
-      console.log('UTM метки при отправке формы:', utmParams);
-      console.log('Количество UTM меток:', Object.keys(utmParams).length);
-      
       const commentsLines = [
         `Имя: ${name || '—'}`,
         `Телефон: ${phone || '—'}`,
         `Email: ${email || '—'}`,
         `Сообщение: ${message || '—'}`,
       ];
-      
-      // Добавляем UTM метки, если они есть
-      if (Object.keys(utmParams).length > 0) {
-        commentsLines.push('');
-        commentsLines.push('=== UTM МЕТКИ ===');
-        Object.entries(utmParams).forEach(([key, value]) => {
-          commentsLines.push(`${key}: ${value}`);
-        });
-      } else {
-        console.warn('UTM метки не найдены при отправке формы');
-      }
-      
-      const commentsText = commentsLines.join('\n');
-      console.log('Полный текст комментариев для сделки:');
-      console.log(commentsText);
 
       const dealTitle = name ? `Заявка на рассрочку — ${name}` : 'Заявка на рассрочку';
 
       const dealPayload = {
         fields: {
           TITLE: dealTitle,
-          COMMENTS: commentsText,
+          COMMENTS: commentsLines.join('\n'),
           ASSIGNED_BY_ID: BITRIX_RESPONSIBLE_ID || undefined,
           CONTACT_ID: contactId || undefined,
           SOURCE_ID: 'WEB',
           CATEGORY_ID: BITRIX_CATEGORY_ID,
         },
       };
-      
-      console.log('Payload для создания сделки:', JSON.stringify(dealPayload, null, 2));
 
       const response = await fetch(dealUrl, {
         method: 'POST',
@@ -355,58 +283,10 @@ const initMenuToggle = () => {
   });
 };
 
-// Функция для скрытия/показа номера телефона
-const initPhoneReveal = () => {
-  const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
-  const phoneNumber = '+7 (700) 950-99-48';
-  const phoneNumberRaw = '+77009509948';
-  
-  phoneLinks.forEach(link => {
-    // Сохраняем оригинальный href
-    const originalHref = link.getAttribute('href');
-    
-    // Заменяем номер на скрытый текст
-    if (link.textContent.includes(phoneNumber) || link.textContent.includes(phoneNumberRaw)) {
-      link.textContent = 'Показать номер';
-      link.classList.add('phone-hidden');
-      link.setAttribute('href', '#');
-      
-      // Обработчик клика
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Показываем номер
-        link.textContent = phoneNumber;
-        link.setAttribute('href', originalHref);
-        link.classList.remove('phone-hidden');
-        link.classList.add('phone-revealed');
-        
-        // Отслеживание клика (можно отправить в GTM или Bitrix)
-        if (window.dataLayer) {
-          window.dataLayer.push({
-            event: 'phone_reveal',
-            phone_number: phoneNumberRaw
-          });
-        }
-        
-        // Логируем клик
-        console.log('Phone number revealed:', phoneNumberRaw);
-      });
-    }
-  });
-};
-
-// Собираем UTM метки сразу при загрузке скрипта (до DOMContentLoaded)
-collectUtmParams();
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Повторно собираем UTM метки на случай, если URL изменился
-  collectUtmParams();
-  
   initHeroSlideshow();
   initRanges();
   initMenuToggle();
   initContactForm();
-  initPhoneReveal();
 });
 
