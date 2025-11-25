@@ -2,6 +2,59 @@ const BITRIX_BASE_URL = 'https://pospro24.bitrix24.kz/rest/4243/ujfsiyj7t7z1m1a9
 const BITRIX_CATEGORY_ID = 15;
 const BITRIX_RESPONSIBLE_ID = 1;
 
+// Функция для получения UTM параметров из URL
+const getUTMParams = () => {
+  const params = new URLSearchParams(window.location.search);
+  const utmParams = {};
+  const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+  
+  utmKeys.forEach(key => {
+    const value = params.get(key);
+    if (value) {
+      utmParams[key] = value;
+    }
+  });
+  
+  return utmParams;
+};
+
+// Сохранение UTM параметров в sessionStorage
+const saveUTMParams = () => {
+  const utmParams = getUTMParams();
+  if (Object.keys(utmParams).length > 0) {
+    sessionStorage.setItem('utm_params', JSON.stringify(utmParams));
+  }
+};
+
+// Получение сохраненных UTM параметров
+const getSavedUTMParams = () => {
+  const saved = sessionStorage.getItem('utm_params');
+  return saved ? JSON.parse(saved) : {};
+};
+
+// Форматирование UTM параметров для комментариев
+const formatUTMForComments = (utmParams) => {
+  if (!utmParams || Object.keys(utmParams).length === 0) {
+    return null;
+  }
+  
+  const labels = {
+    utm_source: 'Источник',
+    utm_medium: 'Канал',
+    utm_campaign: 'Кампания',
+    utm_term: 'Ключевое слово',
+    utm_content: 'Контент'
+  };
+  
+  const lines = ['UTM метки:'];
+  Object.keys(utmParams).forEach(key => {
+    const label = labels[key] || key;
+    lines.push(`${label}: ${utmParams[key]}`);
+  });
+  
+  return lines.join('\n');
+};
+
 const formatCurrency = (value) => {
   const rounded = Math.round(value);
   return `${rounded.toLocaleString('ru-RU')} ₸`;
@@ -180,12 +233,21 @@ const initContactForm = () => {
         }
       }
 
+      // Получаем сохраненные UTM параметры
+      const utmParams = getSavedUTMParams();
+      const utmInfo = formatUTMForComments(utmParams);
+      
       const commentsLines = [
         `Имя: ${name || '—'}`,
         `Телефон: ${phone || '—'}`,
         `Email: ${email || '—'}`,
         `Сообщение: ${message || '—'}`,
       ];
+      
+      // Добавляем UTM метки в комментарии, если они есть
+      if (utmInfo) {
+        commentsLines.push('', utmInfo);
+      }
 
       const dealTitle = name ? `Заявка на рассрочку — ${name}` : 'Заявка на рассрочку';
 
@@ -283,10 +345,63 @@ const initMenuToggle = () => {
   });
 };
 
+const initPhoneReveal = () => {
+  // Находим все ссылки с номерами телефонов
+  const phoneLinks = document.querySelectorAll('a[data-phone-full]');
+  
+  phoneLinks.forEach(link => {
+    const fullPhone = link.getAttribute('data-phone-full');
+    const shortPhone = link.getAttribute('data-phone-short');
+    
+    // Проверяем, был ли номер уже показан (в sessionStorage)
+    const phoneRevealed = sessionStorage.getItem(`phone_revealed_${fullPhone}`);
+    
+    if (phoneRevealed === 'true') {
+      // Если номер уже был показан, показываем полный номер сразу
+      link.textContent = fullPhone;
+    } else {
+      // Иначе показываем короткий вариант
+      link.textContent = shortPhone;
+      
+      // Обработчик клика для показа номера
+      link.addEventListener('click', (e) => {
+        // Если номер еще не показан, показываем его
+        if (link.textContent === shortPhone) {
+          e.preventDefault(); // Предотвращаем переход по ссылке
+          
+          // Показываем полный номер
+          link.textContent = fullPhone;
+          
+          // Сохраняем в sessionStorage, что номер был показан
+          sessionStorage.setItem(`phone_revealed_${fullPhone}`, 'true');
+          
+          // Отслеживаем событие показа номера через dataLayer для GTM
+          if (window.dataLayer) {
+            window.dataLayer.push({
+              event: 'phone_reveal',
+              phone_number: fullPhone,
+              page_url: window.location.href,
+              page_title: document.title
+            });
+          }
+          
+          // Также можно отправить событие в консоль для отладки
+          console.log('Phone number revealed:', fullPhone);
+        }
+        // Если номер уже показан, позволяем обычный переход по ссылке tel:
+      });
+    }
+  });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Сохраняем UTM параметры при загрузке страницы
+  saveUTMParams();
+  
   initHeroSlideshow();
   initRanges();
   initMenuToggle();
   initContactForm();
+  initPhoneReveal();
 });
 
