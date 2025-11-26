@@ -173,6 +173,36 @@ a {
   font-weight: 600;
 }
 
+/* Стиль для скрытого номера телефона */
+a[data-phone-full] {
+  transition: color 0.2s ease;
+}
+
+/* Префикс номера "+7 (700)" - черный цвет */
+a[data-phone-full] .phone-prefix {
+  color: #111827;
+}
+
+/* Текст "Показать номер" - синий цвет */
+a[data-phone-full] .phone-reveal-text {
+  color: #2a81dd;
+  transition: color 0.2s ease;
+}
+
+a[data-phone-full]:hover .phone-reveal-text {
+  color: #1e6bb8;
+}
+
+/* Когда номер показан, возвращаем обычный цвет для всего текста */
+a[data-phone-full].phone-revealed {
+  color: inherit;
+}
+
+a[data-phone-full].phone-revealed .phone-prefix,
+a[data-phone-full].phone-revealed .phone-reveal-text {
+  color: inherit;
+}
+
 button {
   font-family: inherit;
   border: none;

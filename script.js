@@ -236,7 +236,7 @@ const initContactForm = () => {
       // Получаем сохраненные UTM параметры
       const utmParams = getSavedUTMParams();
       const utmInfo = formatUTMForComments(utmParams);
-      
+
       const commentsLines = [
         `Имя: ${name || '—'}`,
         `Телефон: ${phone || '—'}`,
@@ -346,31 +346,55 @@ const initMenuToggle = () => {
 };
 
 const initPhoneReveal = () => {
+  // Очищаем данные о показанных номерах телефонов при каждой загрузке страницы
+  // Это позволяет всегда показывать "Показать номер" при новом визите
+  Object.keys(sessionStorage).forEach(key => {
+    if (key.startsWith('phone_revealed_')) {
+      sessionStorage.removeItem(key);
+    }
+  });
+  
   // Находим все ссылки с номерами телефонов
   const phoneLinks = document.querySelectorAll('a[data-phone-full]');
+  
+  if (phoneLinks.length === 0) {
+    console.warn('No phone links found');
+    return;
+  }
   
   phoneLinks.forEach(link => {
     const fullPhone = link.getAttribute('data-phone-full');
     const shortPhone = link.getAttribute('data-phone-short');
     
+    if (!fullPhone || !shortPhone) {
+      console.warn('Phone link missing data attributes:', link);
+      return;
+    }
+    
     // Проверяем, был ли номер уже показан (в sessionStorage)
     const phoneRevealed = sessionStorage.getItem(`phone_revealed_${fullPhone}`);
     
+    // ВСЕГДА устанавливаем правильный текст при инициализации
     if (phoneRevealed === 'true') {
       // Если номер уже был показан, показываем полный номер сразу
-      link.textContent = fullPhone;
+      link.innerHTML = fullPhone;
+      link.classList.add('phone-revealed'); // Убираем синий цвет
     } else {
-      // Иначе показываем короткий вариант
-      link.textContent = shortPhone;
+      // Иначе показываем короткий вариант с правильной структурой
+      // Создаем структуру с span элементами для разных цветов
+      link.innerHTML = '<span class="phone-prefix">+7 (700)</span> <span class="phone-reveal-text">Показать номер</span>';
+      link.classList.remove('phone-revealed'); // Убеждаемся, что класс удален
       
       // Обработчик клика для показа номера
       link.addEventListener('click', (e) => {
-        // Если номер еще не показан, показываем его
-        if (link.textContent === shortPhone) {
+        // Проверяем, есть ли еще span с классом phone-reveal-text (значит номер не показан)
+        const revealText = link.querySelector('.phone-reveal-text');
+        if (revealText) {
           e.preventDefault(); // Предотвращаем переход по ссылке
           
           // Показываем полный номер
-          link.textContent = fullPhone;
+          link.innerHTML = fullPhone;
+          link.classList.add('phone-revealed'); // Убираем синий цвет
           
           // Сохраняем в sessionStorage, что номер был показан
           sessionStorage.setItem(`phone_revealed_${fullPhone}`, 'true');
@@ -402,6 +426,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initRanges();
   initMenuToggle();
   initContactForm();
-  initPhoneReveal();
+  
+  // Инициализируем скрытие номера телефона
+  // Используем небольшую задержку, чтобы убедиться, что DOM полностью готов
+  setTimeout(() => {
+    initPhoneReveal();
+  }, 100);
 });
 
