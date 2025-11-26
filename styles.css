@@ -183,6 +183,11 @@ a[data-phone-full] .phone-prefix {
   color: #111827;
 }
 
+/* В футере префикс должен быть белым, как другие ссылки */
+.footer a[data-phone-full] .phone-prefix {
+  color: rgba(255, 255, 255, 0.92);
+}
+
 /* Текст "Показать номер" - синий цвет */
 a[data-phone-full] .phone-reveal-text {
   color: #2a81dd;
@@ -195,12 +200,24 @@ a[data-phone-full]:hover .phone-reveal-text {
 
 /* Когда номер показан, возвращаем обычный цвет для всего текста */
 a[data-phone-full].phone-revealed {
-  color: inherit;
+  color: var(--text) !important;
 }
 
 a[data-phone-full].phone-revealed .phone-prefix,
-a[data-phone-full].phone-revealed .phone-reveal-text {
-  color: inherit;
+a[data-phone-full].phone-revealed .phone-reveal-text,
+a[data-phone-full].phone-revealed * {
+  color: var(--text) !important;
+}
+
+/* В футере номер должен быть светлым, как другие ссылки */
+.footer a[data-phone-full].phone-revealed {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.footer a[data-phone-full].phone-revealed .phone-prefix,
+.footer a[data-phone-full].phone-revealed .phone-reveal-text,
+.footer a[data-phone-full].phone-revealed * {
+  color: rgba(255, 255, 255, 0.92) !important;
 }
 
 button {
